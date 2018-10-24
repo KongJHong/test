@@ -23,9 +23,9 @@ public:
     ListNode* reverseList(ListNode* head) {
         if(head == NULL )return 0;
         if(head->next == NULL)return head;
-        ListNode* curNode = head;
-        ListNode* nexNode = head->next;
-        ListNode* tmpNode = nexNode->next;
+        ListNode* curNode = head;          //交换1
+        ListNode* nexNode = head->next;    //交换2
+        ListNode* tmpNode = nexNode->next; //探路指针
         if(tmpNode == NULL)
         {
             curNode->next = NULL;
