@@ -1,0 +1,68 @@
+## 问题描述
+
+给定一个整数数组 `nums` ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。
+
+**示例 1:**
+
+```
+输入: [2,3,-2,4]
+输出: 6
+解释: 子数组 [2,3] 有最大乘积 6。
+```
+
+**示例 2:**
+
+```
+输入: [-2,0,-1]
+输出: 0
+解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
+```
+
+
+
+## 思路
+
+### C++
+
+本题是求最大乘积，是最大子段和的变种。最大乘积可以由正数*正数和负数*负数得到，因此，需要同时记录下最大值和最小值。
+
+状态转移方程：
+
+> dp[i] = max(maxm*nums[i],minm*nums[i],dp[i-1])
+>
+> maxm = max(maxm*nums[i],minm*nums[i],nums[i])
+>
+> minm = min(maxm*nums[i],minm*nums[i],nums[i])
+
+其中，`dp[i]`表示前i个数中的最大乘积，`maxm`表示以第i-1个字符结尾的最大乘积,`minm`表示以第i-1个字符结尾的最小乘积,`nums[i]`即为第i个数。
+
+```CPP
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int len = nums.size();
+        if(len == 1)return nums[0];
+        
+        int dp = 0;
+        int minm,maxm;
+        dp = minm = maxm = nums[0];
+        
+        for(int i = 1;i < len;i++){
+            if(nums[i] >= 0){
+                maxm = max(maxm*nums[i],nums[i]);
+                minm = min(minm*nums[i],nums[i]);
+            }
+            else{//<0
+                int tmp = maxm;
+                maxm = max(minm*nums[i],nums[i]);
+                minm = min(tmp*nums[i],nums[i]);
+            }
+            
+            dp = max(dp,maxm);
+        }
+        
+        return dp;
+    }
+};
+```
+
