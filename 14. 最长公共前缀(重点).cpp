@@ -37,3 +37,36 @@ public:
     }
 };
 
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        string str = "";
+        
+        int len = strs.size();
+        if(len == 0)return "";
+        if(len == 1)return strs[0];
+        
+        int maxLen = 0;
+        
+        for(string tmpStr : strs){
+            int n = tmpStr.length();
+            maxLen = max(maxLen,n);
+        }
+        
+        char ch;
+        for(int col = 0;col < maxLen;col++)
+        {
+            ch = strs[0][col];
+            for(int row = 1;row < len;row++)
+            {
+                if(ch != strs[row][col])
+                    return str;
+            }
+            
+            str += ch;
+        }
+        
+        return str;
+        
+    }
+};
